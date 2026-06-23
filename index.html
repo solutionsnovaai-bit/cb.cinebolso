@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CineBolso reúne três especialistas criativos em IA para transformar qualquer ideia em conteúdo de nível profissional." />
+  <meta property="og:title" content="CineBolso — Hollywood no Seu Bolso" />
+  <meta property="og:description" content="Três especialistas criativos em IA: Diretor de Cinema, Copywriter e Diretor de Capas." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>CineBolso — Hollywood no Seu Bolso</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta property="og:title" content="CineBolso — Hollywood no Seu Bolso" />
+  <meta property="og:description" content="Três especialistas criativos em IA: Diretor de Cinema, Copywriter e Diretor de Capas. Conteúdo profissional no seu bolso." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="description" content="CineBolso reúne três especialistas criativos em IA para transformar qualquer ideia em conteúdo de nível profissional." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    html, body { background: #050505; }
+    body { font-family: 'Outfit', system-ui, sans-serif; color: #f0ece4; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body.is-locked { overflow: hidden; height: 100vh; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: #f5a623; color: #050505; }
+
+    .grain { position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .04; mix-blend-mode: screen; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .vignette { position: fixed; inset: 0; z-index: 59; pointer-events: none; background: radial-gradient(120% 90% at 50% 42%, transparent 52%, rgba(0,0,0,.6) 100%); }
+
+    /* TYPE */
+    .display { font-family: 'Bebas Neue', sans-serif; font-weight: 400; text-transform: uppercase; line-height: .88; letter-spacing: .02em; }
+    .kicker { font-family: 'Outfit', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .32em; font-size: clamp(10px,1.05vw,12px); color: rgba(240,236,228,.5); }
+    .amber  { color: #f5a623; }
+    .blue   { color: #7eb8ff; }
+    .chrome { color: rgba(200,215,245,.9); }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 20px clamp(20px,4.5vw,60px); mix-blend-mode: difference; }
+    .nav__logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: .1em; color: #fff; }
+    .nav__links { display: flex; gap: clamp(16px,2.5vw,40px); align-items: center; }
+    .nav__links a { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: #fff; opacity: .8; transition: opacity .3s; }
+    .nav__links a:hover { opacity: 1; }
+    .nav__cta { border: 1.5px solid #fff; padding: 9px 16px; border-radius: 2px; opacity: 1 !important; }
+    @media(max-width:680px){ .nav__links a:not(.nav__cta){ display:none; } }
+
+    /* CURTAIN */
+    #curtain { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: #050505; overflow: hidden; }
+    .curtain__panel { position: absolute; left: 0; width: 100%; height: 50.5%; background: linear-gradient(180deg,#000,#050505); z-index: 2; will-change: transform; }
+    .curtain__panel--top { top: 0; border-bottom: 1px solid rgba(90,140,255,.35); }
+    .curtain__panel--bot { bottom: 0; border-top: 1px solid rgba(245,166,35,.25); }
+    .curtain__word { position: relative; z-index: 3; font-family: 'Bebas Neue', sans-serif; font-size: clamp(100px,22vw,300px); line-height: 1; display: flex; gap: .02em; color: #fff; letter-spacing: .04em; }
+    .curtain__word span { display: inline-block; transform: translateY(120%) rotate(8deg); will-change: transform; }
+    .curtain__word span.accent { color: #f5a623; }
+    .curtain__bar { position: absolute; left: 50%; bottom: 13%; transform: translateX(-50%); width: min(340px,60vw); height: 2px; background: rgba(255,255,255,.1); z-index: 3; overflow: hidden; }
+    .curtain__bar i { position: absolute; inset: 0; transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg,#7eb8ff,#f5a623); }
+    .curtain__pct { position: absolute; left: 50%; bottom: 9%; transform: translateX(-50%); font-size: 11px; letter-spacing: .4em; color: rgba(240,236,228,.3); z-index: 3; font-weight: 600; }
+
+    /* HERO */
+    .hero { position: relative; min-height: 100svh; width: 100%; overflow: hidden; display: flex; align-items: center; }
+    .hero__bg { position: absolute; inset: 0; z-index: 0; will-change: transform; }
+    .hero__bgimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 65% center; will-change: transform, filter; }
+    .hero__scrim {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(5,5,5,.98) 0%, rgba(5,5,5,.92) 22%, rgba(5,5,5,.58) 44%, rgba(5,5,5,.14) 62%, transparent 76%),
+        linear-gradient(0deg, rgba(5,5,5,.75) 0%, transparent 38%),
+        linear-gradient(180deg, rgba(5,5,5,.4) 0%, transparent 20%);
+    }
+    .hero__content { position: relative; z-index: 3; width: min(580px, 50%); margin-left: clamp(24px,6.5vw,120px); display: flex; flex-direction: column; gap: 0; padding: 80px 0 60px; overflow: hidden; }
+    .hero__slogan { margin-bottom: 14px; }
+    .hero__title { font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; line-height: .86; letter-spacing: .01em; font-size: clamp(72px,10vw,152px); }
+    .hero__title .word { display: inline-block; }
+    .hero__title .word span { display: inline-block; will-change: transform; }
+    .hero__sub { margin-top: 18px; max-width: 36ch; font-size: clamp(15px,1.2vw,17px); color: rgba(240,236,228,.62); letter-spacing: .02em; line-height: 1.65; font-weight: 300; }
+    .hero__cta-wrap { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+    @media(max-width:860px){
+      .hero { align-items: flex-end; }
+      .hero__bgimg { object-position: 62% 30%; }
+      .hero__scrim {
+        background:
+          linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.2) 30%, rgba(5,5,5,.7) 60%, rgba(5,5,5,.98) 100%),
+          linear-gradient(90deg, rgba(5,5,5,.3) 0%, transparent 60%);
+      }
+      .hero__content { width: 100%; margin: 0; padding: 24px clamp(20px,5vw,40px) clamp(60px,10vh,90px); }
+      .hero__title { font-size: clamp(64px,14vw,110px); }
+      .hero__sub { max-width: 100%; font-size: 15px; }
+      .hero__cta-wrap { flex-direction: column; }
+      .hero__cta-wrap .btn { width: 100%; justify-content: center; min-height: 52px; font-size: 13px; }
+    }
+    @media(max-width:480px){
+      .hero__title { font-size: clamp(56px,16vw,90px); }
+    }
+
+    .scroll-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 10px; letter-spacing: .4em; color: rgba(240,236,228,.18); font-weight: 600; pointer-events: none; opacity: 0; }
+    .scroll-hint i { width: 1px; height: 44px; background: linear-gradient(#7eb8ff, transparent); display: block; animation: drip 1.8s cubic-bezier(.16,1,.3,1) infinite; transform-origin: top; }
+    @keyframes drip { 0%{transform:scaleY(0);transform-origin:top} 40%{transform:scaleY(1)} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+    /* BUTTONS */
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Outfit', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; padding: 16px 32px; min-height: 52px; border-radius: 3px; cursor: pointer; border: none; outline: none; color: #050505; background: #f5a623; will-change: transform; overflow: hidden; isolation: isolate; transition: box-shadow .3s; -webkit-tap-highlight-color: transparent; }
+    .btn::before { content: ''; position: absolute; inset: 0; z-index: -1; background: #fff; transform: translateY(101%); transition: transform .45s cubic-bezier(.16,1,.3,1); }
+    .btn:hover::before { transform: translateY(0); }
+    .btn:hover { box-shadow: 0 0 50px rgba(245,166,35,.4); }
+    .btn:active { transform: scale(.97); }
+    .btn__lg { padding: 20px 48px; font-size: clamp(13px,1.1vw,15px); }
+    .btn .arw { transition: transform .4s cubic-bezier(.16,1,.3,1); flex-shrink: 0; }
+    .btn:hover .arw { transform: translateX(5px); }
+    .btn-magnetic { will-change: transform; }
+    .btn-outline { background: transparent; color: #f0ece4; border: 1.5px solid rgba(240,236,228,.28); }
+    .btn-outline::before { background: rgba(90,140,255,.1); }
+    .btn-outline:hover { color: #f0ece4; box-shadow: 0 0 30px rgba(90,140,255,.18); }
+
+    /* SECTION */
+    .section { position: relative; background: #050505; padding: clamp(70px,10vh,130px) clamp(20px,5.5vw,80px); overflow: hidden; }
+    .section--dark { background: linear-gradient(180deg,#050505 0%,#060410 50%,#050505 100%); }
+    .section__rule { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,rgba(90,140,255,.22),transparent); }
+    .section__inner { max-width: 1200px; margin: 0 auto; }
+    .section__head { margin-bottom: clamp(44px,7vh,80px); }
+
+    /* SPECIALISTS */
+    .specs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    @media(max-width:860px){ .specs-grid { grid-template-columns: 1fr; gap: 16px; } }
+    .spec-card { position: relative; padding: clamp(28px,4vw,44px) clamp(24px,3vw,34px); border-radius: 10px; overflow: hidden; transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s; will-change: transform; cursor: default; }
+    @media(hover:hover){ .spec-card:hover { transform: translateY(-8px); } }
+    .spec-card--blue  { border: 1px solid rgba(90,140,255,.22);  background: linear-gradient(135deg,rgba(90,140,255,.07),rgba(5,5,5,.85)); }
+    .spec-card--amber { border: 1px solid rgba(245,166,35,.22);   background: linear-gradient(135deg,rgba(245,166,35,.07),rgba(5,5,5,.85)); }
+    .spec-card--chrome{ border: 1px solid rgba(200,215,245,.14);  background: linear-gradient(135deg,rgba(200,215,245,.04),rgba(5,5,5,.85)); }
+    @media(hover:hover){ .spec-card--blue:hover  { box-shadow: 0 20px 60px rgba(90,140,255,.22); } }
+    @media(hover:hover){ .spec-card--amber:hover { box-shadow: 0 20px 60px rgba(245,166,35,.22); } }
+    @media(hover:hover){ .spec-card--chrome:hover{ box-shadow: 0 20px 60px rgba(200,215,245,.14); } }
+    .spec-card__top { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .spec-card--blue  .spec-card__top { background: linear-gradient(90deg,transparent,#7eb8ff,transparent); }
+    .spec-card--amber .spec-card__top { background: linear-gradient(90deg,transparent,#f5a623,transparent); }
+    .spec-card--chrome .spec-card__top{ background: linear-gradient(90deg,transparent,rgba(200,215,245,.7),transparent); }
+    .spec-card__glow { position: absolute; top: -50px; right: -50px; width: 160px; height: 160px; border-radius: 50%; filter: blur(30px); pointer-events: none; }
+    .spec-card--blue  .spec-card__glow { background: rgba(90,140,255,.12); }
+    .spec-card--amber .spec-card__glow { background: rgba(245,166,35,.12); }
+    .spec-card--chrome .spec-card__glow{ background: rgba(200,215,245,.06); }
+    .spec-card__icon  { font-size: 42px; margin-bottom: 20px; display: block; }
+    .spec-card__title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: .04em; margin-bottom: 12px; color: #f0ece4; }
+    .spec-card__desc  { font-size: 14px; line-height: 1.8; color: rgba(240,236,228,.55); font-weight: 300; }
+    .spec-card__dot { display: flex; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(240,236,228,.08); font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .spec-card__dot i { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; animation: gpulse 2s ease-in-out infinite; }
+    .spec-card--blue  .spec-card__dot { color: #7eb8ff; }
+    .spec-card--blue  .spec-card__dot i { background: #7eb8ff; box-shadow: 0 0 8px #7eb8ff; }
+    .spec-card--amber .spec-card__dot { color: #f5a623; }
+    .spec-card--amber .spec-card__dot i { background: #f5a623; box-shadow: 0 0 8px #f5a623; animation-delay:.5s; }
+    .spec-card--chrome .spec-card__dot { color: rgba(200,215,245,.8); }
+    .spec-card--chrome .spec-card__dot i { background: rgba(200,215,245,.9); box-shadow: 0 0 8px rgba(200,215,245,.5); animation-delay:1s; }
+    @keyframes gpulse { 0%,100%{opacity:.55} 50%{opacity:1} }
+
+    /* FOR WHOM */
+    .for-whom-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    @media(max-width:680px){ .for-whom-grid { grid-template-columns: 1fr; } }
+    .for-whom-item { display: flex; align-items: flex-start; gap: 16px; padding: 24px 26px; border: 1px solid rgba(90,140,255,.14); border-radius: 8px; background: rgba(90,140,255,.04); transition: border-color .3s, background .3s; }
+    @media(hover:hover){ .for-whom-item:hover { border-color: rgba(90,140,255,.3); background: rgba(90,140,255,.07); } }
+    .for-whom-item:nth-child(even) { border-color: rgba(245,166,35,.12); background: rgba(245,166,35,.03); }
+    @media(hover:hover){ .for-whom-item:nth-child(even):hover { border-color: rgba(245,166,35,.28); background: rgba(245,166,35,.06); } }
+    .for-whom-icon { font-size: 30px; flex-shrink: 0; margin-top: 2px; }
+    .for-whom-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: .04em; color: #f0ece4; margin-bottom: 6px; }
+    .for-whom-desc { font-size: 13px; line-height: 1.75; color: rgba(240,236,228,.5); font-weight: 300; }
+
+    /* TRANSFORM */
+    .transform-grid { display: grid; grid-template-columns: 1fr 72px 1fr; gap: 0; align-items: stretch; }
+    @media(max-width:760px){ .transform-grid { grid-template-columns: 1fr; gap: 0; } }
+    .transform-panel { padding: clamp(28px,4vw,44px) clamp(22px,3.5vw,38px); }
+    .transform-panel--before { border: 1px solid rgba(220,60,60,.2); background: rgba(160,20,20,.05); border-radius: 10px 0 0 10px; }
+    .transform-panel--after  { border: 1px solid rgba(90,140,255,.2);  background: rgba(90,140,255,.04); border-radius: 0 10px 10px 0; }
+    @media(max-width:760px){
+      .transform-panel--before { border-radius: 10px 10px 0 0; border-bottom: none; }
+      .transform-panel--after  { border-radius: 0 0 10px 10px; border-top: none; }
+    }
+    .transform-label { font-size: 10px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; margin-bottom: 22px; }
+    .transform-panel--before .transform-label { color: rgba(220,80,80,.7); }
+    .transform-panel--after  .transform-label { color: #7eb8ff; }
+    .transform-item { display: flex; align-items: center; gap: 13px; padding: 10px 0; border-bottom: 1px solid rgba(240,236,228,.04); font-size: clamp(14px,1.2vw,15px); }
+    .transform-item:last-child { border-bottom: none; }
+    .transform-item i { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .transform-panel--before .transform-item { color: rgba(240,236,228,.5); }
+    .transform-panel--before .transform-item i { border: 1px solid rgba(220,80,80,.4); }
+    .transform-panel--before .transform-item i::before { content:''; display:block; width:8px; height:1px; background:rgba(220,80,80,.6); }
+    .transform-panel--after  .transform-item { color: rgba(240,236,228,.85); }
+    .transform-panel--after  .transform-item i { background: rgba(90,140,255,.15); border: 1px solid rgba(90,140,255,.4); font-style: normal; font-size: 10px; color: #7eb8ff; font-weight: 700; }
+    .transform-panel--after  .transform-item:last-child { color: #f5a623; }
+    .transform-panel--after  .transform-item:last-child i { background: rgba(245,166,35,.15); border-color: rgba(245,166,35,.4); color: #f5a623; }
+    .transform-arrow { display: flex; align-items: center; justify-content: center; }
+    .transform-arrow-inner { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(245,166,35,.35); background: rgba(245,166,35,.06); display: flex; align-items: center; justify-content: center; }
+    @media(max-width:760px){
+      .transform-arrow { padding: 20px 0; border-left: 1px solid rgba(90,140,255,.15); border-right: 1px solid rgba(245,166,35,.1); background: rgba(245,166,35,.03); }
+      .transform-arrow-inner svg { transform: rotate(90deg); }
+    }
+
+    /* HOW IT WORKS */
+    .steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; }
+    @media(max-width:760px){ .steps { grid-template-columns: 1fr 1fr; gap: 36px 0; } }
+    @media(max-width:420px){ .steps { grid-template-columns: 1fr; gap: 32px; } }
+    .steps__connector { position: absolute; top: 40px; left: 12.5%; right: 12.5%; height: 1px; background: linear-gradient(90deg,rgba(90,140,255,.4),rgba(245,166,35,.4),rgba(90,140,255,.4),rgba(245,166,35,.4)); z-index: 0; pointer-events: none; }
+    @media(max-width:760px){ .steps__connector { display: none; } }
+    .step { padding: 0 18px; text-align: center; position: relative; z-index: 1; }
+    .step__num { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; position: relative; }
+    .step__num-inner { font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1; }
+    .step__num::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; }
+    .step:nth-child(odd)  .step__num { border: 1px solid rgba(90,140,255,.4); background: linear-gradient(135deg,rgba(90,140,255,.1),rgba(5,5,5,.9)); }
+    .step:nth-child(odd)  .step__num-inner { color: #7eb8ff; }
+    .step:nth-child(odd)  .step__num::after { border: 1px solid rgba(90,140,255,.14); }
+    .step:nth-child(even) .step__num { border: 1px solid rgba(245,166,35,.4); background: linear-gradient(135deg,rgba(245,166,35,.1),rgba(5,5,5,.9)); }
+    .step:nth-child(even) .step__num-inner { color: #f5a623; }
+    .step:nth-child(even) .step__num::after { border: 1px solid rgba(245,166,35,.14); }
+    .step__title { font-family: 'Bebas Neue', sans-serif; font-size: 19px; letter-spacing: .04em; color: #f0ece4; margin-bottom: 8px; }
+    .step__desc   { font-size: 13px; line-height: 1.7; color: rgba(240,236,228,.42); }
+
+    /* TESTIMONIALS */
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+    @media(max-width:860px){ .testi-grid { grid-template-columns: 1fr; gap: 14px; } }
+    .testi-card { padding: clamp(24px,3vw,34px) clamp(20px,2.5vw,28px); border: 1px solid rgba(240,236,228,.08); border-radius: 10px; background: rgba(240,236,228,.03); }
+    .testi-card__stars { color: #f5a623; font-size: 13px; letter-spacing: 2px; margin-bottom: 14px; }
+    .testi-card__text { font-size: 14px; line-height: 1.8; color: rgba(240,236,228,.65); font-weight: 300; font-style: italic; margin-bottom: 20px; }
+    .testi-card__text::before { content: '"'; font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: rgba(245,166,35,.28); line-height: 0; vertical-align: -16px; margin-right: 3px; }
+    .testi-card__author { display: flex; align-items: center; gap: 12px; }
+    .testi-card__avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,rgba(90,140,255,.3),rgba(245,166,35,.3)); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: #f0ece4; flex-shrink: 0; }
+    .testi-card__name { font-size: 13px; font-weight: 700; color: #f0ece4; }
+    .testi-card__role { font-size: 11px; color: rgba(240,236,228,.36); letter-spacing: .05em; }
+
+    /* GUARANTEE */
+    .guarantee-box { display: flex; align-items: center; gap: 40px; padding: clamp(36px,5vw,52px); border: 1px solid rgba(245,166,35,.2); border-radius: 12px; background: linear-gradient(135deg,rgba(245,166,35,.05),rgba(5,5,5,.9)); max-width: 900px; margin: 0 auto; }
+    @media(max-width:680px){ .guarantee-box { flex-direction: column; text-align: center; gap: 24px; padding: 32px 24px; } }
+    .guarantee-icon { font-size: 64px; flex-shrink: 0; filter: drop-shadow(0 0 20px rgba(245,166,35,.3)); }
+    .guarantee-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px,4vw,48px); color: #f5a623; letter-spacing: .04em; margin-bottom: 12px; }
+    .guarantee-text { font-size: clamp(14px,1.2vw,15px); line-height: 1.8; color: rgba(240,236,228,.6); font-weight: 300; }
+
+    /* MARQUEE */
+    .marquee { position: relative; background: #050505; padding: clamp(24px,5vh,56px) 0; overflow: hidden; border-top: 1px solid rgba(90,140,255,.14); border-bottom: 1px solid rgba(245,166,35,.09); }
+    .marquee__row { display: flex; white-space: nowrap; will-change: transform; }
+    .marquee__row span { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,9vw,130px); text-transform: uppercase; line-height: 1; padding: 0 .26em; display: inline-flex; align-items: center; gap: .28em; color: #fff; }
+    .marquee__row span em   { color: #f5a623; font-style: normal; }
+    .marquee__row span.ghost{ color: transparent; -webkit-text-stroke: 1.2px rgba(255,255,255,.2); }
+    .marquee__dot { width: .11em; height: .11em; border-radius: 50%; background: #7eb8ff; display: inline-block; flex-shrink: 0; }
+
+    /* CTA */
+    .cta { position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center; overflow: hidden; text-align: center; background: #050505; padding: clamp(80px,12vh,120px) clamp(20px,5vw,60px); }
+    .cta__bg-img { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0; }
+    .cta__bg-img img { width: 88%; max-width: 1000px; object-fit: contain; opacity: .055; filter: blur(3px) saturate(1.6); }
+    .cta__overlay { position: absolute; inset: 0; pointer-events: none; z-index: 1; background: radial-gradient(ellipse at center,rgba(5,5,5,.12) 0%,rgba(5,5,5,.82) 58%,#050505 100%); }
+    .cta__glow    { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(46% 40% at 50% 58%,rgba(90,60,180,.18),transparent 70%); }
+    .cta__rays    { position: absolute; inset: 0; z-index: 0; }
+    .cta__inner   { position: relative; z-index: 2; width: 100%; max-width: 860px; }
+    .cta__title   { font-family: 'Bebas Neue', sans-serif; text-transform: uppercase; font-size: clamp(48px,10vw,150px); line-height: .86; }
+    .cta__title .word { display: inline-block; }
+    .cta__title .word span { display: inline-block; will-change: transform; }
+    .cta__sub { margin: 22px auto 32px; color: rgba(240,236,228,.55); max-width: 44ch; font-size: clamp(14px,1.3vw,17px); line-height: 1.65; }
+    .cta__price { margin: 0 auto 34px; padding: clamp(20px,3vw,26px) clamp(28px,5vw,48px); border: 1px solid rgba(245,166,35,.3); border-radius: 8px; background: rgba(245,166,35,.05); backdrop-filter: blur(16px); display: inline-flex; flex-direction: column; align-items: center; gap: 5px; }
+    .cta__price-tag  { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(245,166,35,.6); }
+    .cta__price-main { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,5vw,64px); color: #f5a623; line-height: 1; letter-spacing: .04em; }
+    .cta__price-alt  { font-size: 14px; color: rgba(240,236,228,.45); }
+    .cta__price-alt b{ color: rgba(240,236,228,.75); font-weight: 500; }
+    .cta__cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+    @media(max-width:540px){
+      .cta__cta-row { flex-direction: column; align-items: stretch; }
+      .cta__cta-row .btn { width: 100%; min-height: 56px; }
+    }
+    .cta__fine { margin-top: 22px; font-size: 11px; color: rgba(240,236,228,.2); letter-spacing: .05em; }
+
+    /* FOOTER */
+    .footer { background: #050505; padding: clamp(52px,8vh,100px) clamp(24px,5.5vw,90px) clamp(30px,4vh,52px); }
+    .footer__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; margin-bottom: clamp(40px,6vh,70px); }
+    .footer__logo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px,3.5vw,48px); line-height: 1; color: #fff; letter-spacing: .06em; }
+    .footer__logo em { color: #f5a623; font-style: normal; }
+    .footer__tagline { font-size: 11px; color: rgba(240,236,228,.28); letter-spacing: .12em; text-transform: uppercase; margin-top: 8px; }
+    .footer__links { display: flex; gap: clamp(32px,4.5vw,80px); flex-wrap: wrap; padding-top: 4px; }
+    .footer__links h4 { font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: rgba(240,236,228,.2); margin-bottom: 16px; }
+    .footer__links a { display: block; font-size: 13px; color: rgba(240,236,228,.42); margin-bottom: 10px; transition: color .3s; letter-spacing: .03em; }
+    .footer__links a:hover { color: #f5a623; }
+    .footer__bottom { padding-top: clamp(24px,3.5vh,38px); border-top: 1px solid rgba(240,236,228,.06); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 11px; letter-spacing: .08em; color: rgba(240,236,228,.18); text-transform: uppercase; }
+
+    /* WHATSAPP FLOAT */
+    .wa-float { position: fixed; bottom: clamp(20px,3.5vh,32px); right: clamp(16px,2.5vw,28px); z-index: 9999; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg,#25d366,#128c7e); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,.45); cursor: pointer; text-decoration: none; transition: transform .3s, box-shadow .3s; animation: wabounce 3s ease-in-out infinite; -webkit-tap-highlight-color: transparent; }
+    @media(max-width:680px){ .wa-float { bottom: max(20px, env(safe-area-inset-bottom, 20px)); } }
+    .wa-float:hover { transform: scale(1.1); animation: none; box-shadow: 0 6px 36px rgba(37,211,102,.6); }
+    .wa-float:active { transform: scale(.94); }
+    .wa-float svg { width: 26px; height: 26px; fill: white; }
+    @keyframes wabounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+
+    /* REVEALS initial state */
+    .reveal, .reveal-left, .reveal-right { opacity: 0; }
+    .reveal        { transform: translateY(36px); }
+    .reveal-left   { transform: translateX(-54px); }
+    .reveal-right  { transform: translateX(54px); }
+    .reveal-stagger > * { opacity: 0; transform: translateY(44px); }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="cinebolso-motion.js"></script>
+
+</head>
+<body>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<!-- CURTAIN -->
+<div id="curtain">
+  <div class="curtain__panel curtain__panel--top"></div>
+  <div class="curtain__panel curtain__panel--bot"></div>
+  <div class="curtain__word"><span>C</span><span class="accent">B</span></div>
+  <div class="curtain__bar"><i></i></div>
+  <div class="curtain__pct">0%</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__logo">CINE<b>BOLSO</b></div>
+  <div class="nav__links">
+    <a href="#especialistas">Especialistas</a>
+    <a href="#como-funciona">Como Funciona</a>
+    <a href="https://pay.kiwify.com.br/fLiC0zx" target="_blank" rel="noopener noreferrer" class="nav__cta">Quero Acesso</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero__bg">
+    <img class="hero__bgimg" src="uploads/ChatGPT Image 23 de jun. de 2026, 12_25_20.png" alt="CineBolso CB Logo" />
+    <div class="hero__scrim"></div>
+  </div>
+  <div class="hero__content">
+    <div class="hero__slogan kicker">HOLLYWOOD NO SEU BOLSO</div>
+    <h1 class="hero__title">
+      <span class="hero__ln amber" data-split>CINEMA</span>
+      <span class="hero__ln" data-split>DE</span>
+      <span class="hero__ln blue" data-split>BOLSO</span>
+    </h1>
+    <p class="hero__sub">
+      Três especialistas criativos prontos para transformar qualquer ideia em conteúdo de nível profissional — no seu bolso, a qualquer hora.
+    </p>
+    <div class="hero__cta-wrap">
+      <a href="https://pay.kiwify.com.br/fLiC0zx" target="_blank" rel="noopener noreferrer" class="btn btn-magnetic">
+        QUERO ACESSO AGORA <span class="arw">→</span>
+      </a>
+      <a href="https://wa.me/5511978776370" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-magnetic">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.382A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2z"/></svg>
+        FALAR NO WHATSAPP
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint">ROLE<i></i></div>
+</header>
+
+<!-- ESPECIALISTAS -->
+<section class="section" id="especialistas">
+  <div class="section__rule"></div>
+  <div class="section__inner">
+    <div class="section__head" style="text-align:center;">
+      <p class="kicker reveal" style="margin-bottom:16px;">OS ESPECIALISTAS</p>
+      <h2 class="display reveal" style="font-size:clamp(48px,6vw,84px);color:#f0ece4;margin-bottom:14px;">Sua equipe criativa<br/>de bolso.</h2>
+      <p class="reveal" style="font-size:clamp(14px,1.2vw,16px);color:rgba(240,236,228,.45);font-weight:300;max-width:50ch;margin:0 auto;">Você não está comprando uma ferramenta. Você está contratando três especialistas disponíveis a qualquer hora.</p>
+    </div>
+    <div class="specs-grid reveal-stagger">
+      <div class="spec-card spec-card--blue">
+        <div class="spec-card__top"></div><div class="spec-card__glow"></div>
+        <span class="spec-card__icon">🎬</span>
+        <h3 class="spec-card__title">Diretor de Cinema</h3>
+        <p class="spec-card__desc">Cria prompts cinematográficos hiper-realistas para imagens e vídeos com IA. Sua ideia vira cena de Hollywood em segundos.</p>
+        <div class="spec-card__dot"><i></i>Ativo no CineBolso</div>
+      </div>
+      <div class="spec-card spec-card--amber">
+        <div class="spec-card__top"></div><div class="spec-card__glow"></div>
+        <span class="spec-card__icon">✍️</span>
+        <h3 class="spec-card__title">Copywriter</h3>
+        <p class="spec-card__desc">Cria legendas, roteiros, CTAs e textos que prendem atenção. Transforma qualquer imagem em comunicação que converte.</p>
+        <div class="spec-card__dot"><i></i>Ativo no CineBolso</div>
+      </div>
+      <div class="spec-card spec-card--chrome">
+        <div class="spec-card__top"></div><div class="spec-card__glow"></div>
+        <span class="spec-card__icon">🖼️</span>
+        <h3 class="spec-card__title">Diretor de Capas</h3>
+        <p class="spec-card__desc">Cria conceitos visuais para thumbnails e capas de alto impacto. Faz seu conteúdo ser impossível de ignorar no feed.</p>
+        <div class="spec-card__dot"><i></i>Ativo no CineBolso</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM É -->
+<section class="section section--dark">
+  <div class="section__rule"></div>
+  <div class="section__inner">
+    <div class="section__head" style="text-align:center;">
+      <p class="kicker reveal" style="margin-bottom:16px;">PARA QUEM É</p>
+      <h2 class="display reveal" style="font-size:clamp(46px,6vw,84px);color:#f0ece4;margin-bottom:14px;">O CineBolso<br/>foi feito para você.</h2>
+      <p class="reveal" style="font-size:clamp(14px,1.2vw,16px);color:rgba(240,236,228,.45);font-weight:300;">Se você se identifica com algum desses perfis, você precisa disso agora.</p>
+    </div>
+    <div class="for-whom-grid reveal-stagger">
+      <div class="for-whom-item">
+        <span class="for-whom-icon">🎥</span>
+        <div>
+          <div class="for-whom-title">Criadores de Conteúdo</div>
+          <p class="for-whom-desc">Quer produzir vídeos e imagens que parecem produção profissional sem precisar de uma equipe cara.</p>
+        </div>
+      </div>
+      <div class="for-whom-item">
+        <span class="for-whom-icon">🛒</span>
+        <div>
+          <div class="for-whom-title">Empreendedores Digitais</div>
+          <p class="for-whom-desc">Precisa de copies persuasivos, thumbnails de impacto e artes que vendem — tudo com velocidade.</p>
+        </div>
+      </div>
+      <div class="for-whom-item">
+        <span class="for-whom-icon">📱</span>
+        <div>
+          <div class="for-whom-title">Social Media</div>
+          <p class="for-whom-desc">Gerencia múltiplos perfis e precisa de volume + qualidade sem perder horas diante de uma tela em branco.</p>
+        </div>
+      </div>
+      <div class="for-whom-item">
+        <span class="for-whom-icon">🚀</span>
+        <div>
+          <div class="for-whom-title">Infoprodutores</div>
+          <p class="for-whom-desc">Lança cursos, mentorias e produtos digitais e quer anúncios, capas e textos no padrão das maiores marcas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMAÇÃO -->
+<section class="section">
+  <div class="section__rule"></div>
+  <div class="section__inner">
+    <div class="section__head" style="text-align:center;">
+      <p class="kicker reveal" style="margin-bottom:16px;">TRANSFORMAÇÃO</p>
+      <h2 class="display reveal" style="font-size:clamp(46px,6vw,84px);color:#f0ece4;">Pare de criar<br/>conteúdo sozinho.</h2>
+    </div>
+    <div class="transform-grid">
+      <div class="transform-panel transform-panel--before reveal-left">
+        <div class="transform-label">ANTES</div>
+        <div class="transform-item"><i></i>Bloqueio criativo constante</div>
+        <div class="transform-item"><i></i>Horas perdidas por conteúdo</div>
+        <div class="transform-item"><i></i>Resultados mediocres</div>
+        <div class="transform-item"><i></i>Pouco alcance e engajamento</div>
+        <div class="transform-item"><i></i>Sensação de estar sempre atrasado</div>
+      </div>
+      <div class="transform-arrow reveal">
+        <div class="transform-arrow-inner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      <div class="transform-panel transform-panel--after reveal-right">
+        <div class="transform-label">COM CINEBOLSO</div>
+        <div class="transform-item"><i style="font-style:normal;font-size:10px;font-weight:700;">✓</i>Ideias prontas em minutos</div>
+        <div class="transform-item"><i style="font-style:normal;font-size:10px;font-weight:700;">✓</i>Velocidade de produção 10x</div>
+        <div class="transform-item"><i style="font-style:normal;font-size:10px;font-weight:700;">✓</i>Qualidade de agência premium</div>
+        <div class="transform-item"><i style="font-style:normal;font-size:10px;font-weight:700;">✓</i>Conteúdo que para o scroll</div>
+        <div class="transform-item"><i style="font-style:normal;font-size:10px;font-weight:700;color:#f5a623;">✓</i>Resultados reais e escaláveis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="section section--dark" id="como-funciona">
+  <div class="section__rule"></div>
+  <div class="section__inner">
+    <div class="section__head" style="text-align:center;">
+      <p class="kicker reveal" style="margin-bottom:16px;">O PROCESSO</p>
+      <h2 class="display reveal" style="font-size:clamp(46px,6vw,84px);color:#f0ece4;">Simples assim.</h2>
+    </div>
+    <div class="steps reveal-stagger">
+      <div class="steps__connector"></div>
+      <div class="step">
+        <div class="step__num"><span class="step__num-inner">01</span></div>
+        <div class="step__title">Escolha sua ideia</div>
+        <p class="step__desc">Qualquer ideia funciona — produto, campanha, vídeo, post.</p>
+      </div>
+      <div class="step">
+        <div class="step__num"><span class="step__num-inner">02</span></div>
+        <div class="step__title">Ative o especialista</div>
+        <p class="step__desc">Cinema, Copywriting ou Capas — você escolhe qual acionar.</p>
+      </div>
+      <div class="step">
+        <div class="step__num"><span class="step__num-inner">03</span></div>
+        <div class="step__title">Receba pronto</div>
+        <p class="step__desc">Prompt, copy ou conceito visual — profissional e pronto pra usar.</p>
+      </div>
+      <div class="step">
+        <div class="step__num"><span class="step__num-inner">04</span></div>
+        <div class="step__title">Publique e escale</div>
+        <p class="step__desc">Aplique no seu conteúdo. Repita quantas vezes quiser.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section class="marquee">
+  <div class="marquee__row" data-dir="l">
+    <span>HOLLYWOOD NO SEU BOLSO <span class="marquee__dot"></span></span>
+    <span class="ghost">HOLLYWOOD NO SEU BOLSO <span class="marquee__dot"></span></span>
+    <span>HOLLYWOOD <em>NO SEU BOLSO</em> <span class="marquee__dot"></span></span>
+    <span class="ghost">HOLLYWOOD NO SEU BOLSO <span class="marquee__dot"></span></span>
+    <span>HOLLYWOOD NO SEU BOLSO <span class="marquee__dot"></span></span>
+    <span class="ghost">HOLLYWOOD NO SEU BOLSO <span class="marquee__dot"></span></span>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="section">
+  <div class="section__rule"></div>
+  <div class="section__inner">
+    <div class="section__head" style="text-align:center;">
+      <p class="kicker reveal" style="margin-bottom:16px;">RESULTADOS REAIS</p>
+      <h2 class="display reveal" style="font-size:clamp(46px,6vw,84px);color:#f0ece4;">Quem usou,<br/>não volta atrás.</h2>
+    </div>
+    <div class="testi-grid reveal-stagger">
+      <div class="testi-card">
+        <div class="testi-card__stars">★★★★★</div>
+        <p class="testi-card__text">Meu conteúdo era invisível. Com o CineBolso, meu primeiro reel com o prompt do Diretor de Cinema passou de 80 mil visualizações em 48h.</p>
+        <div class="testi-card__author">
+          <div class="testi-card__avatar">MR</div>
+          <div><div class="testi-card__name">Marcos R.</div><div class="testi-card__role">Criador de Conteúdo · São Paulo</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-card__stars">★★★★★</div>
+        <p class="testi-card__text">Usava 3h por dia tentando escrever legenda. Hoje o Copywriter do CineBolso me entrega em 2 minutos uma copy que converte 3x mais.</p>
+        <div class="testi-card__author">
+          <div class="testi-card__avatar">AS</div>
+          <div><div class="testi-card__name">Ana S.</div><div class="testi-card__role">Empreendedora Digital · Curitiba</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-card__stars">★★★★★</div>
+        <p class="testi-card__text">O Diretor de Capas mudou meu jogo. Minha taxa de cliques no YouTube dobrou depois que comecei a usar os conceitos de thumbnail do CineBolso.</p>
+        <div class="testi-card__author">
+          <div class="testi-card__avatar">LF</div>
+          <div><div class="testi-card__name">Lucas F.</div><div class="testi-card__role">Youtuber · Belo Horizonte</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="section section--dark">
+  <div class="section__rule"></div>
+  <div class="section__inner">
+    <div class="guarantee-box reveal">
+      <div class="guarantee-icon">🛡️</div>
+      <div>
+        <div class="guarantee-title">Garantia de 7 dias</div>
+        <p class="guarantee-text">Teste o CineBolso por uma semana inteira. Use os três especialistas, crie quantos conteúdos quiser. Se não ficar satisfeito por qualquer motivo, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta" id="cta">
+  <div class="cta__bg-img"><img src="uploads/ChatGPT Image 23 de jun. de 2026, 12_25_20.png" alt="" loading="lazy" /></div>
+  <div class="cta__overlay"></div>
+  <div class="cta__glow"></div>
+  <div class="cta__rays"></div>
+  <div class="cta__inner">
+    <div class="kicker" style="margin-bottom:20px;">ACESSO IMEDIATO</div>
+    <h2 class="cta__title">
+      <span class="ln"><span data-split>SUA PRÓXIMA</span></span><br/>
+      <span class="ln"><span class="amber" data-split>GRANDE IDEIA</span></span><br/>
+      <span class="ln"><span data-split>COMEÇA AGORA</span></span>
+    </h2>
+    <p class="cta__sub">Uma plataforma. Três especialistas. Acesso imediato. Resultados no mesmo dia.</p>
+    <div class="cta__price">
+      <span class="cta__price-tag">Oferta Especial de Lançamento</span>
+      <span class="cta__price-main">12x de R$ 41,06</span>
+      <span class="cta__price-alt">ou <b>R$ 397 à vista</b></span>
+    </div>
+    <div class="cta__cta-row">
+      <a href="https://pay.kiwify.com.br/fLiC0zx" target="_blank" rel="noopener noreferrer" class="btn btn__lg btn-magnetic">
+        QUERO ACESSO IMEDIATO <span class="arw">→</span>
+      </a>
+      <a href="https://wa.me/5511978776370" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-magnetic">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.382A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2z"/></svg>
+        TIRAR DÚVIDAS
+      </a>
+    </div>
+    <p class="cta__fine">🔒 Pagamento 100% seguro · Acesso imediato · Garantia de 7 dias</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__top">
+    <div>
+      <div class="footer__logo">CINE<em>BOLSO</em></div>
+      <div class="footer__tagline">Hollywood no seu bolso</div>
+    </div>
+    <div class="footer__links">
+      <div>
+        <h4>Produto</h4>
+        <a href="#especialistas">Especialistas</a>
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#cta">Preços</a>
+      </div>
+      <div>
+        <h4>Suporte</h4>
+        <a href="https://wa.me/5511978776370" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://pay.kiwify.com.br/fLiC0zx" target="_blank" rel="noopener noreferrer">Acessar Agora</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2026 CineBolso. Todos os direitos reservados.</span>
+    <span>Hollywood no Seu Bolso</span>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5511978776370" target="_blank" rel="noopener noreferrer" class="wa-float" title="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.382A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2z"/></svg>
+</a>
+</body>
+</html>
