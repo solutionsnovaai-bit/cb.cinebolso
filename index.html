@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CineBolso reúne três especialistas criativos em IA para transformar qualquer ideia em conteúdo de nível profissional." />
-  <meta property="og:title" content="CineBolso — Hollywood no Seu Bolso" />
-  <meta property="og:description" content="Três especialistas criativos em IA: Diretor de Cinema, Copywriter e Diretor de Capas." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <title>CineBolso — Hollywood no Seu Bolso</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -80,11 +78,10 @@
 
     @media(max-width:860px){
       .hero { align-items: flex-end; }
-      .hero__bgimg { object-position: 62% 30%; }
+      .hero__bgimg { object-position: center center; }
       .hero__scrim {
         background:
-          linear-gradient(180deg, rgba(5,5,5,.55) 0%, rgba(5,5,5,.2) 30%, rgba(5,5,5,.7) 60%, rgba(5,5,5,.98) 100%),
-          linear-gradient(90deg, rgba(5,5,5,.3) 0%, transparent 60%);
+          linear-gradient(180deg, rgba(5,5,5,.45) 0%, rgba(5,5,5,.1) 25%, rgba(5,5,5,.55) 62%, rgba(5,5,5,.98) 100%);
       }
       .hero__content { width: 100%; margin: 0; padding: 24px clamp(20px,5vw,40px) clamp(60px,10vh,90px); }
       .hero__title { font-size: clamp(64px,14vw,110px); }
@@ -294,9 +291,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="cinebolso-motion.js"></script>
+</helmet>
 
-</head>
-<body>
 <div class="grain"></div>
 <div class="vignette"></div>
 
@@ -322,7 +318,10 @@
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="hero__bg">
-    <img class="hero__bgimg" src="uploads/ChatGPT Image 23 de jun. de 2026, 12_25_20.png" alt="CineBolso CB Logo" />
+    <picture>
+      <source media="(max-width: 768px)" srcset="uploads/CB MOBILE.jpeg" />
+      <img class="hero__bgimg" src="uploads/ChatGPT Image 23 de jun. de 2026, 12_25_20.png" alt="CineBolso CB Logo" />
+    </picture>
     <div class="hero__scrim"></div>
   </div>
   <div class="hero__content">
@@ -619,5 +618,6 @@
 <a href="https://wa.me/5511978776370" target="_blank" rel="noopener noreferrer" class="wa-float" title="Falar no WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.382A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2z"/></svg>
 </a>
+</x-dc>
 </body>
 </html>
